@@ -20,6 +20,12 @@ cpp_bindings_path = "godot-cpp/"
 cpp_library = "libgodot-cpp"
 
 assimp_header_path = "assimp/include/"
+assimp_build_path = "assimp/build/"
+
+assimp_lib_path = assimp_build_path + 'bin/'
+assimp_lib_name = 'assimp-vc141-mt'
+
+third_lib_path = assimp_build_path + 'lib/'
 
 # only support 64 at this time..
 bits = 64
@@ -63,8 +69,14 @@ if platform == "windows":
 
 if env['target'] in ('debug', 'd'):
     cpp_library += '.debug'
+    assimp_lib_path += 'Debug/'
+    assimp_lib_name += 'd'
+    third_lib_path += 'Debug/'
 else:
     cpp_library += '.release'
+    assimp_lib_path += 'Release/'
+    assimp_lib_name += ''
+    third_lib_path += 'Release/'
 
 cpp_library += '.' + str(bits)
 
@@ -74,15 +86,23 @@ env.Append(CPPPATH=[
     cpp_bindings_path + 'include/',
     cpp_bindings_path + 'include/core/',
     cpp_bindings_path + 'include/gen/',
-    assimp_header_path])
+    assimp_header_path,
+    assimp_build_path,
+    'assimp/build/include/'])
 
 # make sure our binding library is properly includes
 env.Append(LIBPATH=[cpp_bindings_path + 'bin/'])
 env.Append(LIBS=[cpp_library])
 
-# TODO
-#env.Append(LIBPATH=['libpath'])
-#env.Append(LINKFLAGS=['lib.lib'])
+env.Append(LIBPATH=[assimp_lib_path])
+env.Append(LINKFLAGS=[assimp_lib_name + '.lib'])
+
+env.Append(LIBPATH=[third_lib_path])
+env.Append(LINKFLAGS=['IrrXMLd.lib'])
+
+env.Append(LIBPATH=[third_lib_path])
+env.Append(LINKFLAGS=['zlibstaticd.lib'])
+
 
 # tweak this if you want to use different folders, or more folders, to store your source code in.
 env.Append(CPPPATH=['src/'])
