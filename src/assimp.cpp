@@ -1,4 +1,6 @@
 #include "AssimpImporter.h"
+#include "AIScene.h"
+#include "AICamera.h"
 
 extern "C" void GDN_EXPORT assimp_gdnative_init(godot_gdnative_init_options *o) {
     godot::Godot::gdnative_init(o);
@@ -12,4 +14,6 @@ extern "C" void GDN_EXPORT assimp_nativescript_init(void *handle) {
     godot::Godot::nativescript_init(handle);
 
     godot::register_class<AssimpImporter>();
+    godot::register_class<AIScene>();
+    godot::register_class<AICamera>();
 }

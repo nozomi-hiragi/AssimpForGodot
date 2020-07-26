@@ -18,10 +18,18 @@ func _ready():
 
 func _on_MenuButton_pressed():
 	$FileDialog.popup()
+	MenuButton
 	pass # Replace with function body.
 
 
 func _on_FileDialog_file_selected(path):
 	var assimp = load("res://bin/AssimpImporter.gdns").new()
-	assimp.import(path)
+	var scene = assimp.import(path)
+	
+	if (scene.has_cameras()):
+		var camera = scene.cameras[0]
+		print(camera.get_fov())
+	
+	
+	
 	pass # Replace with function body.
